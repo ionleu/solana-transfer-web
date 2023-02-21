@@ -11,8 +11,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-label, h1, p {
+label, p {
   color: #8a8a8a;
+}
+
+h1, h2, p, .input, .button {
+  color: #dfe0e3;
 }
 
 h1 {
@@ -58,7 +62,6 @@ h1 {
 .input {
   background-color: #2d2e33;
   border-color: #2d2e33;
-  color: white;
 }
 
 .button {

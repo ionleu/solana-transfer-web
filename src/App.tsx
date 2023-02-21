@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, TextInput } from "./components/ui";
 
 function App() {
   return (
@@ -8,21 +9,24 @@ function App() {
           <h1>Transfer SOL</h1>
           <div className="content my-5">
             <div className="form">
-              <div className="control sm mr-2">
-                <label>How much?</label>
-                <input className="input" type="text" />
-              </div>
+              <TextInput
+                label="How much?"
+                type="number"
+                placeholder="Enter the amount"
+                classes={["sm", "mr-2"]}
+                onChange={() => {}}
+              />
 
-              <div className="control md">
-                <label>To whom?</label>
-                <input className="input" type="text" />
-              </div>
+              <TextInput
+                label="To whom?"
+                placeholder="Enter the address token"
+                classes={["md"]}
+                onChange={() => {}}
+              />
             </div>
 
             <div className="transfer mt-3">
-              <button className="button is-primary button-action">
-                Transfer
-              </button>
+              <Button title="Transfer" onClick={() => {}} />
             </div>
           </div>
         </div>
