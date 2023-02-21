@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./assets/css/index.css";
+
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+import "@solana/wallet-adapter-react-ui/styles.css";
+import "./assets/css/index.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

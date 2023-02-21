@@ -1,11 +1,13 @@
+import { FC } from "react";
+
 import { IButton } from "../../models";
 
-export const Button = ({
+export const Button: FC<IButton> = ({
   title,
   isPrimary = true,
   style,
   onClick,
-}: IButton) => {
+}) => {
   return (
     <button
       className={`button button-action ${

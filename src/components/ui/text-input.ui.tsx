@@ -1,12 +1,14 @@
+import { FC } from "react";
+
 import { ITextInput } from "../../models";
 
-export const TextInput = ({
+export const TextInput: FC<ITextInput> = ({
   type = "text",
   label,
   classes,
   placeholder,
   onChange,
-}: ITextInput) => {
+}) => {
   return (
     <div className={`control ${classes?.join(" ")}`}>
       <label>{label}</label>
