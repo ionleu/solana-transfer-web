@@ -24,9 +24,7 @@ h1 {
   font-weight: 700;
 }
 
-.button {
-  padding-bottom: 1.7em;
-  padding-top: 1.7em;
+.wallet-adapter-dropdown {
   width: 100%;
 }
 
@@ -66,8 +64,12 @@ h1 {
 
 .button {
   border-radius: 8px;
-  background-color: #25262b;
+  background-color: #512da8;
   border: unset;
+  font-size: 16px;
+  padding-bottom: 1.5em;
+  padding-top: 1.5em;
+  width: 100%;
 }
 
 .buttons.has-addons {
@@ -79,7 +81,7 @@ h1 {
 }
 
 .button.is-primary {
-  background-color: #bc86fc;
+  background-color: #512da8;
 }
 
 .button.is-outline {
@@ -88,7 +90,7 @@ h1 {
 }
 
 .button.is-primary:hover {
-  background-color: #ae6ff8;
+  background-color: #1a1f2e;
 }
 
 .column {
