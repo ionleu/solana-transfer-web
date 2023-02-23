@@ -62,6 +62,7 @@ function App() {
         createdAt: getFormattedDateString(new Date()),
         status: "processed",
       };
+
       saveTransaction(processedTransaction);
       setTransactions((prev) => [processedTransaction, ...prev]);
       emitNotification("success", "Transfer was sent successfully.");
