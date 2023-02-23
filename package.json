@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@atlaskit/modal-dialog": "^12.4.10",
     "@solana/wallet-adapter-base": "^0.9.21",
     "@solana/wallet-adapter-react": "^0.15.29",
     "@solana/wallet-adapter-react-ui": "^0.9.28",

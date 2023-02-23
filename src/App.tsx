@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-import { Button, TextInput } from "./components";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
+
+import { Button, Notification, TextInput } from "./components";
 import { emitNotification } from "./services";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
   const [amount, setAmount] = useState<string>("");
   const [destination, setDestination] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [signature, setSignature] = useState<string>("");
 
   const onTransferSOL = useCallback(async () => {
     try {
@@ -28,8 +30,9 @@ function App() {
           lamports: +amount * 1e9,
         })
       );
+
       const signature = await sendTransaction(transaction, connection);
-      console.log("signature", signature);
+      setSignature(signature);
 
       await connection.confirmTransaction(signature, "processed");
 
@@ -90,6 +93,21 @@ function App() {
                 />
               )}
             </div>
+
+            <Notification
+              show={!!signature}
+              onClose={() => {
+                setSignature("");
+              }}
+            >
+              <a
+                href={`https://solscan.io/tx/${signature}?cluster=devnet`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Successful airdrop, view transaction on Solana Explorer.
+              </a>
+            </Notification>
           </div>
         </div>
       </div>
