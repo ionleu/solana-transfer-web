@@ -5,36 +5,41 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
+import { emitNotification } from "./services";
 
 function App() {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<string>("");
   const [destination, setDestination] = useState<string>("");
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   const onTransferSOL = useCallback(async () => {
     try {
+      setIsSending(true);
       if (!publicKey) throw new WalletNotConnectedError();
-      // additional check if we have the balance /connection.getBalance(publicKey)
-      if (!destination || !amount) return;
+      if (!destination || !amount)
+        throw new Error("Missing destination or amount values");
 
       const transaction = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey: publicKey,
           toPubkey: new PublicKey(destination),
-          lamports: amount * 1_000_000,
+          lamports: +amount * 1e9,
         })
       );
       const signature = await sendTransaction(transaction, connection);
+      console.log("signature", signature);
 
       await connection.confirmTransaction(signature, "processed");
-      // add toast success
 
-      setAmount(0);
+      emitNotification("success", "Transfer was sent successfully.");
+      setAmount("");
       setDestination("");
     } catch (e: any) {
-      // add toast error
-      console.log(e?.message);
+      emitNotification("error", e?.message);
+    } finally {
+      setIsSending(false);
     }
   }, [publicKey, sendTransaction, connection, amount, destination]);
 
@@ -51,8 +56,9 @@ function App() {
                 type="number"
                 placeholder="Enter the amount"
                 classes={["sm", "mr-2"]}
+                value={amount}
                 onChange={(value: string) => {
-                  setAmount(+value);
+                  setAmount(value);
                 }}
               />
 
@@ -60,6 +66,7 @@ function App() {
                 label="To whom?"
                 placeholder="Enter the address token"
                 classes={["md"]}
+                value={destination}
                 onChange={(value: string) => {
                   setDestination(value);
                 }}
@@ -76,7 +83,11 @@ function App() {
                   }}
                 />
               ) : (
-                <Button title="Transfer" onClick={onTransferSOL} />
+                <Button
+                  title="Transfer"
+                  onClick={onTransferSOL}
+                  isLoading={isSending}
+                />
               )}
             </div>
           </div>

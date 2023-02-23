@@ -10,6 +10,7 @@ import {
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
+import { ToastContainer } from "react-toastify";
 
 export const WalletAdapterContext: FC<{ children: ReactNode }> = ({
   children,
@@ -28,6 +29,7 @@ export const WalletAdapterContext: FC<{ children: ReactNode }> = ({
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets}>
         <WalletModalProvider>{children}</WalletModalProvider>
+        <ToastContainer />
       </WalletProvider>
     </ConnectionProvider>
   );

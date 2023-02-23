@@ -3,5 +3,6 @@ export interface ITextInput {
   label: string;
   classes?: string[];
   placeholder: string;
+  value: number | string;
   onChange: (value: string) => void;
 }

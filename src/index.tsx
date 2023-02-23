@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import { AutoConnectProvider, WalletAdapterContext } from "./components";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
+import "react-toastify/dist/ReactToastify.css";
 import "./assets/css/index.css";
 
 window.Buffer = buffer.Buffer;
