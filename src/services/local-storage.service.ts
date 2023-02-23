@@ -19,8 +19,38 @@ export const getTransactions = async (
   publicKey: PublicKey,
   connection: Connection
 ) => {
-  const a = await getSolanaTransactions(publicKey, connection);
-  console.log("a", a);
+  const procesedTransactions: Record<string, boolean> = {};
+  const buildTransactions: ITransaction[] = [];
+  const dbTransactions: ITransaction[] = db.get("transations");
+  const solanaTransactions = await getSolanaTransactions(publicKey, connection);
 
-  return a;
+  if (!solanaTransactions?.length && !dbTransactions.length)
+    return buildTransactions;
+  if (!solanaTransactions?.length) return dbTransactions;
+
+  for (let i = 0; i < solanaTransactions.length; i++) {
+    for (let j = 0; j < dbTransactions.length; j++) {
+      if (solanaTransactions[i].signature === dbTransactions[j].signature) {
+        procesedTransactions[solanaTransactions[i].signature] = true;
+
+        buildTransactions.push({
+          createdAt: solanaTransactions[i].createdAt,
+          signature: solanaTransactions[i].signature,
+          status: solanaTransactions[i].status,
+          amount: dbTransactions[j].amount,
+          to: dbTransactions[j].to,
+        });
+      }
+    }
+
+    if (!procesedTransactions[solanaTransactions[i].signature]) {
+      buildTransactions.push({
+        ...solanaTransactions[i],
+        amount: null,
+        to: null,
+      });
+    }
+  }
+
+  return buildTransactions;
 };

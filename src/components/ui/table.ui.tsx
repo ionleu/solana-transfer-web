@@ -12,23 +12,23 @@ export const Table: FC<ITable> = (props): JSX.Element => {
         <thead>
           <tr>
             {headers.map((el) => (
-              <th>{el}</th>
+              <th key={el}>{el}</th>
             ))}
           </tr>
         </thead>
         <tfoot>
           <tr>
             {headers.map((el) => (
-              <th>{el}</th>
+              <th key={el}>{el}</th>
             ))}
           </tr>
         </tfoot>
         <tbody>
           {data.map((el) => (
-            <tr>
+            <tr key={el.signature}>
               <td>{ellipsis(el.signature, 15)}</td>
               <td>{el.createdAt}</td>
-              <td>{el.to || "-"}</td>
+              <td>{el.to ? ellipsis(el.to, 15) : "-"}</td>
               <td>{el.amount || "-"}</td>
               <td style={{ textTransform: "capitalize" }}>{el.status}</td>
               <td>

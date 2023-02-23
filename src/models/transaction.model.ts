@@ -1,7 +1,7 @@
 export interface ITransaction {
-  to: string;
+  to: string | null;
   signature: string;
-  createdAt?: number;
-  amount: string;
+  createdAt?: string;
+  amount: string | null;
   status?: "processed" | "finalized";
 }

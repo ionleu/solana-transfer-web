@@ -8,6 +8,7 @@ import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { Button, Notification, Table, TextInput } from "./components";
 import { emitNotification, getTransactions, saveTransaction } from "./services";
 import { ITransaction } from "./models";
+import { getFormattedDateString } from "./utils";
 
 function App() {
   const { connection } = useConnection();
@@ -54,13 +55,15 @@ function App() {
       setSignature(signature);
 
       await connection.confirmTransaction(signature, "processed");
-
-      saveTransaction({
+      const processedTransaction: ITransaction = {
         to: destination,
         signature,
         amount,
-      });
-
+        createdAt: getFormattedDateString(new Date()),
+        status: "processed",
+      };
+      saveTransaction(processedTransaction);
+      setTransactions((prev) => [processedTransaction, ...prev]);
       emitNotification("success", "Transfer was sent successfully.");
       setAmount("");
       setDestination("");
@@ -175,7 +178,7 @@ function App() {
                   "Signature",
                   "Created",
                   "Destination",
-                  "Amount",
+                  "Amount (SOL)",
                   "Status",
                   "Solscan",
                   "Solana Explorer",
