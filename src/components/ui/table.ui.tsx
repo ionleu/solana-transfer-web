@@ -1,0 +1,58 @@
+import { FC } from "react";
+
+import { ITable } from "../../models";
+import { ellipsis } from "../../utils";
+
+export const Table: FC<ITable> = (props): JSX.Element => {
+  const { data, headers } = props;
+
+  return (
+    <div className="table-container">
+      <table className="table is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            {headers.map((el) => (
+              <th>{el}</th>
+            ))}
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            {headers.map((el) => (
+              <th>{el}</th>
+            ))}
+          </tr>
+        </tfoot>
+        <tbody>
+          {data.map((el) => (
+            <tr>
+              <td>{ellipsis(el.signature, 15)}</td>
+              <td>{el.createdAt}</td>
+              <td>{el.to || "-"}</td>
+              <td>{el.amount || "-"}</td>
+              <td style={{ textTransform: "capitalize" }}>{el.status}</td>
+              <td>
+                <a
+                  href={`https://solscan.io/tx/${el.signature}?cluster=devnet`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  view
+                </a>
+              </td>
+              <td>
+                <a
+                  href={`https://explorer.solana.com/tx/${el.signature}?cluster=devnet`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  view
+                </a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};

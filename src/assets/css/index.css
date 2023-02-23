@@ -11,11 +11,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-label, p {
+label, p, h3, .table, .table thead th, .table tfoot th {
   color: #8a8a8a;
 }
 
-h1, h2, p, .input, .button {
+h1, h2, .input, .button {
   color: #dfe0e3;
 }
 
@@ -23,6 +23,42 @@ h1 {
   font-size: 28px;
   font-weight: 700;
 }
+
+h3 {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+}
+
+.table {
+  background-color: transparent;
+}
+
+.table td, .table th {
+  border: 1px solid #76767621;
+  border-width: 0 0 1px;
+  padding: 0 1.2em;
+  vertical-align: middle;
+}
+
+.table.is-hoverable tbody tr:not(.is-selected):hover {
+  background-color: #1d1d1d;
+}
+
+.table thead tr, .table tfoot tr {
+  height: 60px;
+  font-size: 13px;
+}
+
+.table tbody tr {
+  height: 45px;
+  font-size: 15px;
+}
+
+/* .table {
+  border: 1px solid #76767621 !important;
+  border-radius: 0.75rem !important;
+} */
 
 .wallet-adapter-dropdown {
   width: 100%;
@@ -121,5 +157,8 @@ h1 {
 @media screen and (max-width: 600px) {
   .buttons button {
     font-size: 14px;
+  }
+  body {
+    margin: 0 30px;
   }
 }
