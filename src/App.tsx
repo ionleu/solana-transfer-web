@@ -5,7 +5,14 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 
-import { Button, Notification, Table, TextInput } from "./components";
+import {
+  Button,
+  Modal,
+  Notification,
+  Table,
+  TextInput,
+  TransactionDetails,
+} from "./components";
 import { emitNotification, getTransactions, saveTransaction } from "./services";
 import { ITransaction } from "./models";
 import { getFormattedDateString } from "./utils";
@@ -19,6 +26,7 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [signature, setSignature] = useState<string>("");
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  const [selectedTransaction, setSelectedTransaction] = useState<string>("");
 
   useEffect(() => {
     const init = async () => {
@@ -174,6 +182,10 @@ function App() {
           {!!transactions.length && !isLoading && (
             <>
               <Table
+                onRowClick={(signature: string) => {
+                  setSelectedTransaction(signature);
+                  console.log("tra", signature);
+                }}
                 data={transactions}
                 headers={[
                   "Signature",
@@ -189,6 +201,19 @@ function App() {
           )}
         </div>
       </div>
+
+      <Modal
+        title="Transaction details"
+        show={!!selectedTransaction}
+        onClose={() => {
+          setSelectedTransaction("");
+        }}
+      >
+        <TransactionDetails
+          signature={selectedTransaction}
+          transactions={transactions}
+        />
+      </Modal>
     </div>
   );
 }

@@ -54,3 +54,8 @@ export const getTransactions = async (
 
   return buildTransactions;
 };
+
+export const getTransactionDetails = (
+  signature: string,
+  transactions: ITransaction[]
+) => transactions.filter((t) => t.signature === signature);
