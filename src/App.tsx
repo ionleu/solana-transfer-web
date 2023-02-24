@@ -4,6 +4,8 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
+import { Hits, SearchBox } from "react-instantsearch-hooks-web";
+import { Hit as AlgoliaHit } from "instantsearch.js";
 
 import {
   Button,
@@ -151,11 +153,15 @@ function App() {
 
       <div className="columns mt-5">
         <div
-          className="column is-10 is-offset-1"
+          className="column is-8 is-offset-1"
           style={{ padding: "1.2rem 0" }}
         >
           <h3>Transaction History</h3>
           <p>Choose a transaction to see more details about it.</p>
+        </div>
+
+        <div className="column is-2 search">
+          <SearchBox placeholder="Search transaction" autoFocus />
         </div>
       </div>
 
@@ -184,7 +190,6 @@ function App() {
               <Table
                 onRowClick={(signature: string) => {
                   setSelectedTransaction(signature);
-                  console.log("tra", signature);
                 }}
                 data={transactions}
                 headers={[
@@ -197,6 +202,8 @@ function App() {
                   "Solana Explorer",
                 ]}
               />
+
+              <Hits hitComponent={Hit} />
             </>
           )}
         </div>
@@ -215,6 +222,18 @@ function App() {
         />
       </Modal>
     </div>
+  );
+}
+
+type HitProps = {
+  hit: AlgoliaHit<any>;
+};
+
+function Hit({ hit }: HitProps) {
+  return (
+    <>
+      <span className="Hit-price">${hit.signature}</span>
+    </>
   );
 }
 

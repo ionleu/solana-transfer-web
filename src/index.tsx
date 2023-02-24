@@ -1,25 +1,33 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import * as buffer from "buffer";
+import algoliasearch from "algoliasearch";
+import { InstantSearch } from "react-instantsearch-hooks-web";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AutoConnectProvider, WalletAdapterContext } from "./components";
-import algoliasearch from "algoliasearch/lite";
-import { InstantSearch } from "react-instantsearch-hooks-web";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/css/index.css";
 
 window.Buffer = buffer.Buffer;
-const searchClient = algoliasearch("YourApplicationID", "YourSearchOnlyAPIKey");
+const searchClient = algoliasearch("", "");
+
+// const index = searchClient.initIndex("sth_dev");
+
+// index
+//   .saveObjects([{ test: "test" }], { autoGenerateObjectIDIfNotExist: true })
+//   .then(({ objectIDs }) => {
+//     console.log(objectIDs);
+//   });
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <InstantSearch searchClient={searchClient} indexName="instant_search">
+  <InstantSearch searchClient={searchClient} indexName="sth_dev">
     <AutoConnectProvider>
       <WalletAdapterContext>
         <App />

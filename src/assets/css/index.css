@@ -30,6 +30,12 @@ h3 {
   font-weight: 600;
 }
 
+.search {
+  align-self: center;
+  text-align: end;
+  padding: 0px !important;
+}
+
 .modal-card-head, .modal-card-body {
   background-color: #1b1d22;
 }
