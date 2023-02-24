@@ -5,8 +5,17 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 
-import { Button, Notification, TextInput } from "./components";
-import { emitNotification } from "./services";
+import {
+  Button,
+  Modal,
+  Notification,
+  Table,
+  TextInput,
+  TransactionDetails,
+} from "./components";
+import { emitNotification, getTransactions, saveTransaction } from "./services";
+import { ITransaction } from "./models";
+import { getFormattedDateString } from "./utils";
 
 function App() {
   const { connection } = useConnection();
@@ -14,7 +23,26 @@ function App() {
   const [amount, setAmount] = useState<string>("");
   const [destination, setDestination] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [signature, setSignature] = useState<string>("");
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  const [selectedTransaction, setSelectedTransaction] = useState<string>("");
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        setIsLoading(true);
+        if (!publicKey) return;
+
+        const result: any = await getTransactions(publicKey, connection);
+        setTransactions(result);
+      } catch (e) {
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    init();
+  }, [publicKey, connection]);
 
   const onTransferSOL = useCallback(async () => {
     try {
@@ -35,7 +63,16 @@ function App() {
       setSignature(signature);
 
       await connection.confirmTransaction(signature, "processed");
+      const processedTransaction: ITransaction = {
+        to: destination,
+        signature,
+        amount,
+        createdAt: getFormattedDateString(new Date()),
+        status: "processed",
+      };
 
+      saveTransaction(processedTransaction);
+      setTransactions((prev) => [processedTransaction, ...prev]);
       emitNotification("success", "Transfer was sent successfully.");
       setAmount("");
       setDestination("");
@@ -111,6 +148,72 @@ function App() {
           </div>
         </div>
       </div>
+
+      <div className="columns mt-5">
+        <div
+          className="column is-10 is-offset-1"
+          style={{ padding: "1.2rem 0" }}
+        >
+          <h3>Transaction History</h3>
+          <p>Choose a transaction to see more details about it.</p>
+        </div>
+      </div>
+
+      <div className="columns mb-5">
+        <div
+          className="column is-10 is-offset-1 main"
+          style={{
+            marginTop: "unset",
+            padding: isLoading || transactions.length === 0 ? "1.2rem" : 0,
+          }}
+        >
+          {transactions.length === 0 && !isLoading && (
+            <p style={{ textAlign: "center" }}>
+              No transactions in your history yet.
+            </p>
+          )}
+
+          {isLoading && (
+            <p style={{ textAlign: "center" }}>
+              Transactions history is loading...
+            </p>
+          )}
+
+          {!!transactions.length && !isLoading && (
+            <>
+              <Table
+                onRowClick={(signature: string) => {
+                  setSelectedTransaction(signature);
+                  console.log("tra", signature);
+                }}
+                data={transactions}
+                headers={[
+                  "Signature",
+                  "Created",
+                  "Destination",
+                  "Amount (SOL)",
+                  "Status",
+                  "Solscan",
+                  "Solana Explorer",
+                ]}
+              />
+            </>
+          )}
+        </div>
+      </div>
+
+      <Modal
+        title="Transaction details"
+        show={!!selectedTransaction}
+        onClose={() => {
+          setSelectedTransaction("");
+        }}
+      >
+        <TransactionDetails
+          signature={selectedTransaction}
+          transactions={transactions}
+        />
+      </Modal>
     </div>
   );
 }

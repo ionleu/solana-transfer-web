@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@atlaskit/modal-dialog": "^12.4.10",
     "@solana/wallet-adapter-base": "^0.9.21",
     "@solana/wallet-adapter-react": "^0.15.29",
     "@solana/wallet-adapter-react-ui": "^0.9.28",
@@ -20,6 +19,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "react-toastify": "^9.1.1",
+    "storelify": "^1.2.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
