@@ -13,7 +13,10 @@ import "react-toastify/dist/ReactToastify.css";
 import "./assets/css/index.css";
 
 window.Buffer = buffer.Buffer;
-const searchClient = algoliasearch("", "");
+const searchClient = algoliasearch(
+  "EGC7JX4FX1",
+  "e8e38a24c93aa59d07533b63cf14afb5"
+);
 
 // const index = searchClient.initIndex("sth_dev");
 
