@@ -6,7 +6,7 @@ import { getSolanaTransactions } from "./solana.service";
 
 const db = new Storelify("__sth");
 
-export const saveTransaction = async (transaction: ITransaction) => {
+export const saveTransaction = (transaction: ITransaction) => {
   const transactions: ITransaction[] = db.get("transations") || [];
 
   db.set("transations", [
@@ -17,7 +17,8 @@ export const saveTransaction = async (transaction: ITransaction) => {
 
 export const getTransactions = async (
   publicKey: PublicKey,
-  connection: Connection
+  connection: Connection,
+  query?: string
 ) => {
   const procesedTransactions: Record<string, boolean> = {};
   const buildTransactions: ITransaction[] = [];

@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import * as buffer from "buffer";
+import { Provider } from "react-redux";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AutoConnectProvider, WalletAdapterContext } from "./components";
+import { store } from "./store";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,11 +18,13 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <AutoConnectProvider>
-    <WalletAdapterContext>
-      <App />
-    </WalletAdapterContext>
-  </AutoConnectProvider>
+  <Provider store={store}>
+    <AutoConnectProvider>
+      <WalletAdapterContext>
+        <App />
+      </WalletAdapterContext>
+    </AutoConnectProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
