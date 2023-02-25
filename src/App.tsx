@@ -7,46 +7,51 @@ import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 
 import {
   Button,
+  Message,
   Modal,
   Notification,
   Table,
   TextInput,
   TransactionDetails,
 } from "./components";
-import { emitNotification, getTransactions, saveTransaction } from "./services";
-import { ITransaction } from "./models";
+import { emitNotification } from "./services";
+import { useAppDispatch, useAppSelector } from "./hooks";
 import { getFormattedDateString } from "./utils";
+import {
+  getTransactionsAction,
+  saveTransactionAction,
+  setIsAdding,
+} from "./store/transactions";
 
 function App() {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const [amount, setAmount] = useState<string>("");
   const [destination, setDestination] = useState<string>("");
-  const [isSending, setIsSending] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [signature, setSignature] = useState<string>("");
-  const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [selectedTransaction, setSelectedTransaction] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const {
+    transactions,
+    isLoading,
+    isAdding,
+    error: transactionError,
+  } = useAppSelector((state) => state.transactionsReducer);
+  console.log("transactions", transactions.length);
 
   useEffect(() => {
     const init = async () => {
-      try {
-        setIsLoading(true);
-        if (!publicKey) return;
+      if (!publicKey || isAdding) return;
 
-        const result: any = await getTransactions(publicKey, connection);
-        setTransactions(result);
-      } catch (e) {
-      } finally {
-        setIsLoading(false);
-      }
+      await dispatch(getTransactionsAction({ publicKey, connection }));
     };
     init();
   }, [publicKey, connection]);
 
   const onTransferSOL = useCallback(async () => {
     try {
-      setIsSending(true);
+      dispatch(setIsAdding(true));
+
       if (!publicKey) throw new WalletNotConnectedError();
       if (!destination || !amount)
         throw new Error("Missing destination or amount values");
@@ -63,25 +68,25 @@ function App() {
       setSignature(signature);
 
       await connection.confirmTransaction(signature, "processed");
-      const processedTransaction: ITransaction = {
-        to: destination,
-        signature,
-        amount,
-        createdAt: getFormattedDateString(new Date()),
-        status: "processed",
-      };
+      await dispatch(
+        saveTransactionAction({
+          to: destination,
+          signature,
+          amount,
+          createdAt: getFormattedDateString(new Date()),
+          status: "processed",
+        })
+      );
 
-      saveTransaction(processedTransaction);
-      setTransactions((prev) => [processedTransaction, ...prev]);
       emitNotification("success", "Transfer was sent successfully.");
       setAmount("");
       setDestination("");
     } catch (e: any) {
       emitNotification("error", e?.message);
     } finally {
-      setIsSending(false);
+      dispatch(setIsAdding(false));
     }
-  }, [publicKey, sendTransaction, connection, amount, destination]);
+  }, [publicKey, connection, amount, destination]);
 
   return (
     <div className="container">
@@ -126,7 +131,7 @@ function App() {
                 <Button
                   title="Transfer"
                   onClick={onTransferSOL}
-                  isLoading={isSending}
+                  isLoading={isAdding}
                 />
               )}
             </div>
@@ -142,7 +147,7 @@ function App() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Successful airdrop, view transaction on Solana Explorer.
+                Successful airdrop, view transaction on Solscan.
               </a>
             </Notification>
           </div>
@@ -168,15 +173,15 @@ function App() {
           }}
         >
           {transactions.length === 0 && !isLoading && (
-            <p style={{ textAlign: "center" }}>
-              No transactions in your history yet.
-            </p>
+            <Message content="No transactions in your history yet." />
+          )}
+
+          {transactions.length === 0 && !isLoading && !!transactionError && (
+            <Message content="Something went wrong on fetching your account transaction history." />
           )}
 
           {isLoading && (
-            <p style={{ textAlign: "center" }}>
-              Transactions history is loading...
-            </p>
+            <Message content="Transactions history is loading..." />
           )}
 
           {!!transactions.length && !isLoading && (
@@ -184,7 +189,6 @@ function App() {
               <Table
                 onRowClick={(signature: string) => {
                   setSelectedTransaction(signature);
-                  console.log("tra", signature);
                 }}
                 data={transactions}
                 headers={[
