@@ -107,7 +107,7 @@ export const TransferForm: FC = (): JSX.Element => {
           </div>
 
           <Notification
-            show={!!signature}
+            show={!!signature && !isAdding}
             onClose={() => {
               setSignature("");
             }}

@@ -10,6 +10,7 @@ import {
 } from "./components";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { getTransactionsAction } from "./store/transactions";
+import { TRANSACTION_COLUMNS, TRANSACTION_HEADER_LABELS } from "./constants";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -54,7 +55,7 @@ function App() {
           }}
         >
           {transactions.length === 0 && !isLoading && (
-            <Message content="No transactions in your history yet." />
+            <Message content="No transactions in your history yet OR make sure you connected your wallet." />
           )}
 
           {transactions.length === 0 && !isLoading && !!transactionError && (
@@ -72,15 +73,8 @@ function App() {
                   setSelectedTransaction(signature);
                 }}
                 data={transactions}
-                headers={[
-                  "Signature",
-                  "Created",
-                  "Destination",
-                  "Amount (SOL)",
-                  "Status",
-                  "Solscan",
-                  "Solana Explorer",
-                ]}
+                headers={TRANSACTION_HEADER_LABELS}
+                columns={TRANSACTION_COLUMNS}
               />
             </>
           )}
