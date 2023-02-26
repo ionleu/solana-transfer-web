@@ -53,7 +53,13 @@ export const getTransactions = async (
     }
   }
 
-  return buildTransactions;
+  return !query?.trim()
+    ? buildTransactions
+    : buildTransactions.filter((t: any) =>
+        Object.keys(t).some((key: string) =>
+          t[key]?.toLowerCase()?.includes(query.toLowerCase())
+        )
+      );
 };
 
 export const getTransactionDetails = (

@@ -7,7 +7,7 @@ export const Modal: FC<IModal> = (props): JSX.Element => {
 
   return (
     <div className={`modal ${show && "is-active"}`}>
-      <div className="modal-background"></div>
+      <div className="modal-background" onClick={onClose}></div>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">{title}</p>
