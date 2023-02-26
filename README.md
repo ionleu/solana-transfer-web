@@ -8,16 +8,16 @@ Checkout the demo [here](https://solana-transfer-web.web.app/)
 
 ## Highlights
 
-https://i.ibb.co/mzLk9bN/Screenshot-2023-02-26-at-9-40-07-AM.png
+<img src="https://i.ibb.co/mzLk9bN/Screenshot-2023-02-26-at-9-40-07-AM.png" />
 
 ### Responsiveness
 
-https://i.ibb.co/VYkqbxR/Screenshot-2023-02-26-at-9-46-02-AM.png
+<img src="https://i.ibb.co/VYkqbxR/Screenshot-2023-02-26-at-9-46-02-AM.png" />
 
 ## Summary
 
 - SPA app using React (no server side);
-- Pulls data from [devnet](https://api.devnet.solana.com/), using [Solana Wallet Adapter](https://github.com/solana-labs/wallet-adapter);
+- Pulls data from [devnet Solana](https://api.devnet.solana.com/), using [Solana Wallet Adapter](https://github.com/solana-labs/wallet-adapter);
 - Doesn't use any 3rd party UI components;
 - Deployed to https://solana-transfer-web.web.app
 - Packages used:
@@ -37,7 +37,7 @@ https://i.ibb.co/VYkqbxR/Screenshot-2023-02-26-at-9-46-02-AM.png
 
 - Using `localStore` as a database to store the user transactions;
 - Simple search transaction mechanism;
-- No unit tests and stories coverage;
+- No unit tests, E2E tests and stories coverage;
 - Hard-coded UI theme, missing light mode support.
 
 ## Improvements
@@ -47,7 +47,7 @@ https://i.ibb.co/VYkqbxR/Screenshot-2023-02-26-at-9-46-02-AM.png
 - Implement Storybook for component-centered development;
 - Add unit testing using Jest or Playwright;
 - Add component testing using Cypress or Playwright;
-- Improve E2E tests suites;
+- Add E2E tests suites that support Solana Wallet;
 - Add Vite for bundling/HMR;
 - Add conventional commiting rule using hasky;
 - Add GitHub actions to follow Git flow branching strategy;
