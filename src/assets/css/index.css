@@ -30,6 +30,21 @@ h3 {
   font-weight: 600;
 }
 
+.search {
+  align-self: center;
+  text-align: end;
+  padding: 0px !important;
+}
+
+.full-width {
+  width: 100% !important;
+}
+
+.full-width input {
+  height: 48px !important;
+  font-size: 16px;
+}
+
 .modal-card-head, .modal-card-body {
   background-color: #1b1d22;
 }
@@ -122,6 +137,16 @@ h3 {
   border-color: #2d2e33;
 }
 
+.input-wrap {
+  display: flex;
+}
+
+.input-wrap .delete {
+  position: absolute;
+  top: 14px;
+  right: 7px;
+}
+
 .button {
   border-radius: 8px;
   background-color: #512da8;
@@ -179,9 +204,14 @@ h3 {
 }
 
 @media screen and (max-width: 600px) {
+  .full-width {
+    margin-bottom: 25px;
+  }
+
   .buttons button {
     font-size: 14px;
   }
+
   body {
     margin: 0 30px;
   }

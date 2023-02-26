@@ -7,6 +7,7 @@ import {
   Table,
   TransactionDetails,
   TransferForm,
+  SearchInput,
 } from "./components";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { getTransactionsAction } from "./store/transactions";
@@ -38,11 +39,22 @@ function App() {
 
       <div className="columns mt-5">
         <div
-          className="column is-10 is-offset-1"
+          className="column is-7 is-offset-1"
           style={{ padding: "1.2rem 0" }}
         >
           <h3>Transaction History</h3>
           <p>Choose a transaction to see more details about it.</p>
+        </div>
+        <div className="column is-3 search">
+          <SearchInput
+            placeholder="Search for transactions"
+            onEmit={async (keyword: string) => {
+              if (!publicKey) return;
+              await dispatch(
+                getTransactionsAction({ publicKey, connection, query: keyword })
+              );
+            }}
+          />
         </div>
       </div>
 

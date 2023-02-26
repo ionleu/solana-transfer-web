@@ -28,9 +28,9 @@ export const saveTransactionAction = createAsyncThunk(
 
 export const getTransactionsAction = createAsyncThunk(
   `${DOMAIN}/${GET_ACTION}`,
-  async ({ publicKey, connection }: IGetTransactionAction, thunkAPI) => {
+  async ({ publicKey, connection, query }: IGetTransactionAction, thunkAPI) => {
     try {
-      return await getTransactions(publicKey, connection);
+      return await getTransactions(publicKey, connection, query);
     } catch (e: any) {
       let messageCode = "UNKNOW";
 

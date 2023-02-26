@@ -1,8 +1,10 @@
 export interface ITextInput {
   type?: "text" | "number" | "password";
-  label: string;
+  label?: string;
   classes?: string[];
   placeholder: string;
-  value: number | string;
+  value?: string;
+  showClear?: boolean;
   onChange: (value: string) => void;
+  onClear?: () => void;
 }
