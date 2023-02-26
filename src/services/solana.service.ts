@@ -4,6 +4,16 @@ import { getFormattedDateString } from "../utils";
 
 const PAGE_LIMIT = 100;
 
+/**
+ * @name getSolanaTransactions
+ * @description
+ * Get Solana transactions
+ *
+ * @param {PublicKey} publicKey - A unique PublicKey for tests and benchmarks
+ * @param {Connection} connection - A connection to a fullnode JSON RPC endpoint
+ *
+ * @returns {Partial<ITransaction[]>} - A list of transactions
+ */
 export const getSolanaTransactions = async (
   publicKey: PublicKey | null,
   connection: Connection

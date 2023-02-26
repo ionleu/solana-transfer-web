@@ -12,6 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { getTransactionsAction } from "./store/transactions";
 import { TRANSACTION_COLUMNS, TRANSACTION_HEADER_LABELS } from "./constants";
+import { RootState } from "./store";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -21,7 +22,7 @@ function App() {
     transactions,
     isLoading,
     error: transactionError,
-  } = useAppSelector((state) => state.transactionsReducer);
+  } = useAppSelector((state: RootState) => state.transactionsReducer);
   const [selectedTransaction, setSelectedTransaction] = useState<string>("");
 
   useEffect(() => {

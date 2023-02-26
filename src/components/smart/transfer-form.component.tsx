@@ -9,12 +9,15 @@ import { saveTransactionAction, setIsAdding } from "../../store/transactions";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { getFormattedDateString } from "../../utils";
 import { emitNotification } from "../../services";
+import { RootState } from "../../store";
 
 export const TransferForm: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
-  const { isAdding } = useAppSelector((state) => state.transactionsReducer);
+  const { isAdding } = useAppSelector(
+    (state: RootState) => state.transactionsReducer
+  );
   const [amount, setAmount] = useState<string>("");
   const [destination, setDestination] = useState<string>("");
   const [signature, setSignature] = useState<string>("");
