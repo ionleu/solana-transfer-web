@@ -9,8 +9,9 @@ import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { clusterApiUrl } from "@solana/web3.js";
+import { Keypair, clusterApiUrl } from "@solana/web3.js";
 import { ToastContainer } from "react-toastify";
+import { E2EWalletAdapter } from "@jet-lab/e2e-react-adapter";
 
 export const WalletAdapterContext: FC<{ children: ReactNode }> = ({
   children,
@@ -18,9 +19,16 @@ export const WalletAdapterContext: FC<{ children: ReactNode }> = ({
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const keypair = new Keypair();
 
   const wallets = useMemo(
-    () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
+    () => [
+      new PhantomWalletAdapter(),
+      new SolflareWalletAdapter(),
+      new E2EWalletAdapter({
+        keypair,
+      }),
+    ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [network]
   );

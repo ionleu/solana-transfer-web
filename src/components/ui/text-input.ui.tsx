@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, SyntheticEvent } from "react";
 
 import { ITextInput } from "../../models";
 
@@ -24,7 +24,9 @@ export const TextInput: FC<ITextInput> = (props): JSX.Element => {
           type={type}
           placeholder={placeholder}
           value={value || ""}
-          onChange={($event) => onChange($event.target.value)}
+          onChange={($event: SyntheticEvent) =>
+            onChange(($event.target as HTMLInputElement).value)
+          }
         />
         {showClear && value?.trim() && (
           <button

@@ -4,11 +4,11 @@ import { ITransaction } from "./transaction.model";
 export interface ITable {
   data: ITransaction[];
   headers: string[];
-  columns: IColumns[];
+  columns: IColumn[];
   onRowClick: (signature: string) => void;
 }
 
-interface IColumns {
+export interface IColumn {
   isKey?: boolean;
   key: string;
   viewType: VIEW_TYPES;

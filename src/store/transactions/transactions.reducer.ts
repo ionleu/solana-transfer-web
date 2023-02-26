@@ -23,17 +23,17 @@ const transactionsSlice = createSlice({
   },
   extraReducers: {
     [saveTransactionAction.fulfilled.type]: (
-      state,
+      state: ITransactionsState,
       action: PayloadAction<ITransaction>
     ) => {
       state.transactions.unshift(action.payload);
       state.isAdding = false;
     },
-    [saveTransactionAction.pending.type]: (state) => {
+    [saveTransactionAction.pending.type]: (state: ITransactionsState) => {
       state.isAdding = true;
     },
     [saveTransactionAction.rejected.type]: (
-      state,
+      state: ITransactionsState,
       action: PayloadAction<string>
     ) => {
       state.error = action.payload;
@@ -41,17 +41,17 @@ const transactionsSlice = createSlice({
     },
 
     [getTransactionsAction.fulfilled.type]: (
-      state,
+      state: ITransactionsState,
       action: PayloadAction<ITransaction[]>
     ) => {
       state.transactions = action.payload;
       state.isLoading = false;
     },
-    [getTransactionsAction.pending.type]: (state) => {
+    [getTransactionsAction.pending.type]: (state: ITransactionsState) => {
       state.isLoading = true;
     },
     [getTransactionsAction.rejected.type]: (
-      state,
+      state: ITransactionsState,
       action: PayloadAction<string>
     ) => {
       state.error = action.payload;

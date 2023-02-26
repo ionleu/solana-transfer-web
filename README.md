@@ -1,46 +1,54 @@
-# Getting Started with Create React App
+# Solana Transfer History
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Transfer, display all Solana transactions and details
 
-## Available Scripts
+### Demo
 
-In the project directory, you can run:
+Checkout the demo [here](https://solana-transfer-web.web.app/)
 
-### `npm start`
+## Highlights
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<img src="https://i.ibb.co/mzLk9bN/Screenshot-2023-02-26-at-9-40-07-AM.png" />
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Responsiveness
 
-### `npm test`
+<img src="https://i.ibb.co/VYkqbxR/Screenshot-2023-02-26-at-9-46-02-AM.png" />
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Summary
 
-### `npm run build`
+- SPA app using React (no server side);
+- Pulls data from [devnet Solana](https://api.devnet.solana.com/), using [Solana Wallet Adapter](https://github.com/solana-labs/wallet-adapter);
+- Doesn't use any 3rd party UI components;
+- Deployed to https://solana-transfer-web.web.app
+- Packages used:
+  - React 18.2 with TypeScript;
+  - [Bulma CSS](https://bulma.io/) for styling;
+  - [Redux Toolkit](https://redux-toolkit.js.org/) for global state management;
+  - [Prettier](https://prettier.io/) + [ESLint](https://eslint.org/) + [Stylelint](https://stylelint.io/) for automatic enforcement of basic code hygiene;
+  - [npm](https://www.npmjs.com/) for package management.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Local development workflows
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Task           | Command                  |
+| -------------- | ------------------------ |
+| Run dev server | `npm i && npm run start` |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Known deficiences
 
-### `npm run eject`
+- Using `localStore` as a database to store the user transactions;
+- Simple search transaction mechanism;
+- No unit tests, E2E tests and stories coverage;
+- Hard-coded UI theme, missing light mode support.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Improvements
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Use Algolia to store the transactions;
+- Use Algolia for search feature;
+- Implement Storybook for component-centered development;
+- Add unit testing using Jest or Playwright;
+- Add component testing using Cypress or Playwright;
+- Add E2E tests suites that support Solana Wallet;
+- Add Vite for bundling/HMR;
+- Add conventional commiting rule using hasky;
+- Add GitHub actions to follow Git flow branching strategy;
+- Add to the GitHub actions reles to run the build, unit testing and Sonar checking.
