@@ -1,13 +1,13 @@
-import { FC, Fragment, useMemo } from "react";
+import { FC, useMemo } from "react";
 
-import { ITable } from "../../models";
+import { IColumn, ITable } from "../../models";
 import { ellipsis } from "../../utils";
 import { VIEW_TYPES } from "../../constants";
 
 export const Table: FC<ITable> = (props): JSX.Element => {
   const { data, headers, columns, onRowClick } = props;
   const keyName = useMemo(
-    () => columns.filter((c) => c?.isKey)[0]?.key,
+    () => columns.filter((c: IColumn) => c?.isKey)[0]?.key,
     [columns]
   );
 
@@ -17,14 +17,14 @@ export const Table: FC<ITable> = (props): JSX.Element => {
         <table className="table is-hoverable is-fullwidth">
           <thead>
             <tr>
-              {headers.map((el) => (
+              {headers.map((el: string) => (
                 <th key={el}>{el}</th>
               ))}
             </tr>
           </thead>
           <tfoot>
             <tr>
-              {headers.map((el) => (
+              {headers.map((el: string) => (
                 <th key={el}>{el}</th>
               ))}
             </tr>
@@ -32,7 +32,7 @@ export const Table: FC<ITable> = (props): JSX.Element => {
           <tbody>
             {data.map((el: any) => (
               <tr key={el[keyName]} onClick={() => onRowClick(el[keyName])}>
-                {columns.map((c) => (
+                {columns.map((c: IColumn) => (
                   <>
                     {c.viewType === VIEW_TYPES.TEXT && (
                       <td
